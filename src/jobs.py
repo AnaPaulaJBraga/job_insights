@@ -16,15 +16,16 @@ def read(path):
     list
         List of rows as dicts
     """
+
     with open(path, encoding="utf-8") as file:
-        file_reader = csv.reader(file, delimiter=",", quotechar='"')
+        file_reader = csv.reader(file, delimiter=',', quotechar='"')
         header, *data = file_reader
 
     list = []
     for row in data:
-        item = {}
+        object = {}
         for index in range(len(row)):
-            item[header[index]] = row[index]
-            list.append(item)
+            object[header[index]] = row[index]
+        list.append(object)
 
     return list
