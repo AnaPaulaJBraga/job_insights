@@ -146,7 +146,19 @@ def matches_salary_range(job, salary):
         If `job["min_salary"]` is greather than `job["max_salary"]`
         If `salary` isn't a valid integer
     """
-    pass
+    # https://www.w3schools.com/python/ref_dictionary_get.asp
+    # https://www.w3schools.com/python/ref_func_isinstance.asp
+    if(
+        job.get("min_salary") is None
+        or job.get("max_salary") is None
+        or not isinstance(job["min_salary"], int)
+        or not isinstance(job["max_salary"], int)
+        or not isinstance(salary, int)
+        or job["min_salary"] > job["max_salary"]
+    ):
+        raise ValueError
+
+    return job["min_salary"] <= salary <= job["max_salary"]
 
 
 def filter_by_salary_range(jobs, salary):
@@ -164,4 +176,13 @@ def filter_by_salary_range(jobs, salary):
     list
         Jobs whose salary range contains `salary`
     """
-    return []
+    return [
+        job for job in jobs
+        if not job.get("min_salary") is None
+        and not job.get("max_salary") is None
+        and isinstance(job["min_salary"], int)
+        and isinstance(job["max_salary"], int)
+        and isinstance(salary, int)
+        and job["min_salary"] < job["max_salary"]
+        and matches_salary_range(job, salary)
+    ]
